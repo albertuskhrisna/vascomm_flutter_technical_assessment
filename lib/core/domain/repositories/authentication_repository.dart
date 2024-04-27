@@ -5,4 +5,5 @@ import 'package:vascomm_flutter_technical_assessment/core/domain/entities/authen
 
 abstract class AuthenticationRepository {
   Future<Either<Failure, AuthenticationEntity>> signIn(LoginRequest params);
+  Future<Either<Failure, bool>> getLoginStatus();
 }

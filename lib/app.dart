@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vascomm_flutter_technical_assessment/common/config/injectable_setup.dart';
 import 'package:vascomm_flutter_technical_assessment/common/router/navigation.dart';
 import 'package:vascomm_flutter_technical_assessment/common/themes/app_colors.dart';
+import 'package:vascomm_flutter_technical_assessment/core/presentation/home/page/home_page.dart';
 import 'package:vascomm_flutter_technical_assessment/core/presentation/login/bloc/login_bloc.dart';
+import 'package:vascomm_flutter_technical_assessment/core/presentation/login/page/login_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -19,7 +21,7 @@ class App extends StatelessWidget {
       child: MaterialApp(
         title: 'Vascomm',
         debugShowCheckedModeBanner: false,
-        initialRoute: CustomNavigation().getInitialRoute(context),
+        home: _initialRoute(context),
         onGenerateRoute: CustomNavigation().getRoute,
         navigatorObservers: [CustomNavigation().routeObserver],
         // themeMode: ThemeMode.system,
@@ -30,5 +32,16 @@ class App extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _initialRoute(BuildContext context) {
+    return Builder(builder: (context) {
+      final loginState = context.select((LoginBloc bloc) => bloc.state);
+      if (loginState.loginStatus == LoginStatus.success) {
+        return const HomePage();
+      } else {
+        return const LoginPage();
+      }
+    });
   }
 }
